@@ -1,0 +1,8 @@
+*/build
+*/test
+*/contracts/artifacts
+
+*/bin
+
+*/contracts/ContractLogic/artifacts
+*/contracts/ContractStorage/artifacts
