@@ -2,36 +2,50 @@
 pragma solidity ^0.7.0;
 
 import "./IERC20.sol";
-import "./SafeMath.sol";
-import "./IStorageERC20.sol";
+import "../utils/SafeMath.sol";
+import "../utils/Ownable.sol";
 
-contract LogicERC20 is IERC20{
+contract ERC20 is IERC20, Ownable {
     using SafeMath for uint256;
 
-    IStorageERC20 private _storageERC20;
+    mapping(address => uint256) internal _balances;
 
-    constructor(address storageERC20Address){
-        _storageERC20 = IStorageERC20(storageERC20Address);
+    mapping(address => mapping(address => uint256)) internal _allowances;
+
+    uint256 private _totalSupply;
+
+    string private _name;
+    string private _symbol;
+    uint8 private _decimals;
+
+    function initERC20(string memory name, string memory symbol)
+        internal
+        onlyOwner
+        initializer
+    {
+        _name = name;
+        _symbol = symbol;
+        _decimals = 18;
     }
 
     function name() public view returns (string memory) {
-        return _storageERC20.getName();
+        return _name;
     }
 
     function symbol() public view returns (string memory) {
-        return _storageERC20.getSymbol();
+        return _symbol;
     }
 
     function decimals() public view returns (uint8) {
-        return _storageERC20.getDecimals();
+        return _decimals;
     }
 
     function totalSupply() public override view returns (uint256) {
-        return _storageERC20.getTotalSupply();
+        return _totalSupply;
     }
 
     function balanceOf(address account) public override view returns (uint256) {
-        return _storageERC20.getBalanceOf(account);
+        return _balances[account];
     }
 
     function transfer(address recipient, uint256 amount)
@@ -51,7 +65,7 @@ contract LogicERC20 is IERC20{
         view
         returns (uint256)
     {
-        return _storageERC20.getAllowance(owner, spender);
+        return _allowances[owner][spender];
     }
 
     function approve(address spender, uint256 amount)
@@ -73,7 +87,7 @@ contract LogicERC20 is IERC20{
         _approve(
             sender,
             msg.sender,
-            _storageERC20.getAllowance(sender, msg.sender).sub(
+            _allowances[sender][msg.sender].sub(
                 amount,
                 "ERC20: transfer amount exceeds allowance"
             )
@@ -89,7 +103,7 @@ contract LogicERC20 is IERC20{
         _approve(
             msg.sender,
             spender,
-            _storageERC20.getAllowance(msg.sender, spender).add(addedValue)
+            _allowances[msg.sender][spender].add(addedValue)
         );
         return true;
     }
@@ -102,7 +116,7 @@ contract LogicERC20 is IERC20{
         _approve(
             msg.sender,
             spender,
-            _storageERC20.getAllowance(msg.sender, spender).sub(
+            _allowances[msg.sender][spender].sub(
                 subtractedValue,
                 "ERC20: decreased allowance below zero"
             )
@@ -117,31 +131,31 @@ contract LogicERC20 is IERC20{
     ) internal virtual {
         require(sender != address(0), "ERC20: transfer from the zero address");
         require(recipient != address(0), "ERC20: transfer to the zero address");
-        _storageERC20.setBalanceOf(sender, _storageERC20.getBalanceOf(sender).sub(
+
+        _balances[sender] = _balances[sender].sub(
             amount,
             "ERC20: transfer amount exceeds balance"
-        ));
-        _storageERC20.setBalanceOf(recipient, _storageERC20.getBalanceOf(recipient).add(amount));
+        );
+        _balances[recipient] = _balances[recipient].add(amount);
         emit Transfer(sender, recipient, amount);
     }
 
     function _mint(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: mint to the zero address");
 
-        _storageERC20.setTotalSupply(_storageERC20.getTotalSupply());
-
-        _storageERC20.setBalanceOf(account, _storageERC20.getBalanceOf(account).add(amount));
+        _totalSupply = _totalSupply.add(amount);
+        _balances[account] = _balances[account].add(amount);
         emit Transfer(address(0), account, amount);
     }
 
     function _burn(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: burn from the zero address");
 
-        _storageERC20.setBalanceOf(account, _storageERC20.getBalanceOf(account).sub(
+        _balances[account] = _balances[account].sub(
             amount,
             "ERC20: burn amount exceeds balance"
-            ));
-        _storageERC20.setTotalSupply(_storageERC20.getTotalSupply().sub(amount));
+        );
+        _totalSupply = _totalSupply.sub(amount);
         emit Transfer(account, address(0), amount);
     }
 
@@ -152,9 +166,8 @@ contract LogicERC20 is IERC20{
     ) internal virtual {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
-        
-        _storageERC20.setAllowance(owner, spender, amount);
 
+        _allowances[owner][spender] = amount;
         emit Approval(owner, spender, amount);
     }
 }

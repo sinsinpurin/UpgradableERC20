@@ -1,0 +1,146 @@
+{
+	"compiler": {
+		"version": "0.7.0+commit.9e61f92b"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "previousOwner",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "OwnershipTransferred",
+				"type": "event"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "fallback"
+			},
+			{
+				"inputs": [],
+				"name": "getProxyOwner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "targetAddress",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "newOwner",
+						"type": "address"
+					}
+				],
+				"name": "transferOwnership",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_address",
+						"type": "address"
+					}
+				],
+				"name": "upgradeTo",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"stateMutability": "payable",
+				"type": "receive"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {
+				"upgradeTo(address)": {
+					"details": "ロジックコントラクトのアドレスアドレスの設定"
+				}
+			},
+			"title": "Proxy",
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"localhost/contracts/Proxy/Proxy.sol": "Proxy"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"localhost/contracts/Proxy/Proxy.sol": {
+			"keccak256": "0xc30753b4172694c214413bdf7242460e568a6b2165d0ea03af9b5cd1f91511c6",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://34e61f9774c28c09abf22d840f954a0f19fc82e27e873c82845b705a3c132f8b",
+				"dweb:/ipfs/QmYgAgZ7TAnDrYkmbpHBFF4HnyRk5gjVULGyB1kKsz4CbF"
+			]
+		},
+		"localhost/contracts/Proxy/ProxyOwnable.sol": {
+			"keccak256": "0xe0388f75e1113f1935b4c9f0caf14e87f1bcc000f3f454d1007ef3b9dd1e21f1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://573db3a3b7b950ed7ef80a5459b3a4d9321cda821934b95ec33ba32686e8a666",
+				"dweb:/ipfs/QmQqD2ErDEj3dkxNKNpBdzsGmZ1FSkZ2ZD8kkL5WbeEkXn"
+			]
+		},
+		"localhost/contracts/utils/Initializable.sol": {
+			"keccak256": "0xe21f29658aac374bc8e57f3c86c67be166173adaa96d9658d659e59d65d6096e",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://b25f902925f41342a12e9cc40afc12c383cfd0794c49cda7abc31d68c62e02ab",
+				"dweb:/ipfs/QmPkNzHrLR562ymsHq8sHgLS7zkB27dZ1RNPhnzgqNSBGo"
+			]
+		}
+	},
+	"version": 1
+}

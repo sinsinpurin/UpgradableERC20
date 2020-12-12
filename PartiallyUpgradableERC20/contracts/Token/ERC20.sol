@@ -3,15 +3,14 @@ pragma solidity ^0.7.0;
 
 import "./IERC20.sol";
 import "../Utils/SafeMath.sol";
-import "./UpgradableToken.sol";
 import "../Utils/Ownable.sol";
 
-contract ERC20 is IERC20 , UpgradableToken ,Ownable{
+contract ERC20 is IERC20 ,Ownable{
     using SafeMath for uint256;
 
-    mapping(address => uint256) private _balances;
+    mapping(address => uint256) internal _balances;
 
-    mapping(address => mapping(address => uint256)) private _allowances;
+    mapping(address => mapping(address => uint256)) internal _allowances;
 
     uint256 private _totalSupply;
 
@@ -48,6 +47,10 @@ contract ERC20 is IERC20 , UpgradableToken ,Ownable{
 
     function balanceOf(address account) public override view returns (uint256) {
         return _balances[account];
+    }
+    
+    function isUpgraded() public view returns(bool){
+        return _upgraded;
     }
 
     ///   Upgrade   /// onlyOwner
@@ -140,7 +143,8 @@ contract ERC20 is IERC20 , UpgradableToken ,Ownable{
         uint256 amount
     ) internal virtual {
         if(_upgraded == true){
-            (bool success, ) = address(_upgradedAddress).delegatecall(abi.encodeWithSignature("UpgradedTransfer(address,address,uint256)",sender,recipient,amount));
+            (bool success, ) = address(_upgradedAddress)
+            .delegatecall(abi.encodeWithSignature("transfer(address,uint256)",recipient,amount));
             if(!success){
                 revert();
             }
@@ -160,27 +164,13 @@ contract ERC20 is IERC20 , UpgradableToken ,Ownable{
     function _mint(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: mint to the zero address");
 
-        if(_upgraded == true){
-            (bool success, ) = address(_upgradedAddress).delegatecall(abi.encodeWithSignature("UpgradedMint(address,uint256)", account,amount));
-            if(!success){
-                revert();
-            }
-        }else{
             _totalSupply = _totalSupply.add(amount);
             _balances[account] = _balances[account].add(amount);
             emit Transfer(address(0), account, amount);
-        }
     }
 
     function _burn(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: burn from the zero address");
-
-        if(_upgraded == true){
-            (bool success, ) = address(_upgradedAddress).delegatecall(abi.encodeWithSignature("UpgradedBurn(address,uint256)", account,amount));
-            if(!success){
-                revert();
-            }
-        }else{
 
         _balances[account] = _balances[account].sub(
             amount,
@@ -188,7 +178,7 @@ contract ERC20 is IERC20 , UpgradableToken ,Ownable{
         );
         _totalSupply = _totalSupply.sub(amount);
         emit Transfer(account, address(0), amount);
-        }
+        
     }
 
     function _approve(
@@ -200,7 +190,7 @@ contract ERC20 is IERC20 , UpgradableToken ,Ownable{
         require(spender != address(0), "ERC20: approve to the zero address");
 
         if(_upgraded == true){
-            (bool success, ) = address(_upgradedAddress).delegatecall(abi.encodeWithSignature("UpgradedApprove(address,address,uint256)", owner,spender,amount));
+            (bool success, ) = address(_upgradedAddress).delegatecall(abi.encodeWithSignature("approve(address,uint256)", spender,amount));
             if(!success){
                 revert();
             }

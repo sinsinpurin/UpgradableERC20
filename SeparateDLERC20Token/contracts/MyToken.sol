@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
 
-import "./LogicERC20.sol";
-import "./Initializable.sol";
+import "./logic/LogicERC20.sol";
+import "./utils/Initializable.sol";
 
 contract MyToken is LogicERC20, Initializable{
     // ERC20の初期値

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
 
-import "./Accessible.sol";
+import "../utils/Accessible.sol";
 
 contract StorageERC20 is Accessible{
 

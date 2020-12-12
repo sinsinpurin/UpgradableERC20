@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
 
-import "./Initializable.sol";
+import "../utils/Initializable.sol";
 
 contract ProxyOwnable is Initializable{
     address private _owner;

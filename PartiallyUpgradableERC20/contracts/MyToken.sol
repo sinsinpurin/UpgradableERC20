@@ -9,12 +9,8 @@ contract MyToken is ERC20 {
     string private constant _symbol = "ERC20Token";
     uint256 private constant _initial_supply = 1000000;
 
-    // 作成者アドレス
-    address private _owner;
-
     // MyTokenとERC20の初期化
     constructor () ERC20(_name,_symbol){
-        _owner = msg.sender;
-        _mint(_owner, _initial_supply);
+        _mint(msg.sender, _initial_supply);
     }
 }

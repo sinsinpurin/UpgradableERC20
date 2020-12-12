@@ -21,6 +21,6 @@ $ truffle console
 $> let SE = await Storage.deployed();
 $> let MT = await MyToken.deployed();
 $> SE.changeAccessAddress(MT.address);
-$> MT.initMyToken() 
+$> MT.initMyToken()；
 
 ```

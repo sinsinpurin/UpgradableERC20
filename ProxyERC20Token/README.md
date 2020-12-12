@@ -1,12 +1,18 @@
-# 手順
+# Proxy Contract
+## デプロイ手順
 
-1. Proxyコントラクトのインスタンス化
-2. MyTokenコントラクトのインスタンス化
+1. Proxyコントラクトのデプロイ
+2. MyTokenコントラクトのデプロイ
 3. Proxyコントラクトの参照先(MyTokenコントラクト)の設定
 4. MyTokenのAbiを読み込んだProxyコントラクトのインスタンスの作成(ProxyMyToken)
 5. ProxyMyTokenの初期化
 
-# Truffle Console　の実行確認
+## 拡張手順
+
+1. NewMyTokenコントラクトのデプロイ
+2. Proxyコントラクトの参照先を変更。`upgradeTo(address)`を実行
+
+## Truffle Console　の実行確認
 
 ```js
 let Proxy = await Proxy.deployed()
