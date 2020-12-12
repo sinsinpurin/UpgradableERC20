@@ -13,6 +13,11 @@
 4. MyTokenの初期化
     `initMyToken`を実行
 
+## Upgrade
+1. NewMyToken.sol(Logic部分)をデプロイ
+    コンストラクタで参照先の初期化
+2. StorageERC20.solのアクセスをMyTokenのコントラクトアドレスに変更
+
 ## Run Truffle
 
 ```js

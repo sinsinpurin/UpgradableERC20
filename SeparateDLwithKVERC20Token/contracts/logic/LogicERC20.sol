@@ -3,9 +3,10 @@ pragma solidity ^0.7.0;
 
 import "./IERC20.sol";
 import "../utils/SafeMath.sol";
+import "../utils/Ownable.sol";
 import "./StorageHandler.sol";
 
-contract LogicERC20 is IERC20, StorageHandler {
+contract LogicERC20 is IERC20, StorageHandler,Ownable{
     using SafeMath for uint256;
 
     ///  variable   ///
@@ -131,7 +132,7 @@ contract LogicERC20 is IERC20, StorageHandler {
     function _mint(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: mint to the zero address");
 
-        setTotalSupply(amount);
+        setTotalSupply(getTotalSupply().add(amount));
         setBalances(account, balanceOf(account).add(amount));
 
         emit Transfer(address(0), account, amount);

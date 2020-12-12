@@ -14,6 +14,12 @@
 4. MyTokenの初期化
     `initMint`を実行
 
+## Upgrade
+
+1. NewMyToken.sol(Logic部分)をデプロイ
+    コンストラクタでStorageの参照先を初期化
+2. アクセスをNewMyTokenのコントラクトアドレスに限定
+
 ## Run Truffle
 
 ```js

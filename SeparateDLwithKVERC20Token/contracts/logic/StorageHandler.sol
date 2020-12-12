@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
 
-import "../ContractStorage/Storage.sol";
+import "../data/Storage.sol";
 
 
 contract StorageHandler{
 
-    Storage private _storageERC20;
+    Storage internal _storageERC20;
 
     constructor(address storageERC20Address){
         _storageERC20 = Storage(storageERC20Address);
