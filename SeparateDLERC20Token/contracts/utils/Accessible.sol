@@ -18,7 +18,7 @@ contract Accessible is Ownable {
     modifier canAccess() {
         require(
             _AccessAddress == msg.sender,
-            "Accessible: caller is not the owner"
+            "Accessible: caller is not the Accessible"
         );
         _;
     }
